@@ -109,12 +109,14 @@ def getboltzmannDistOfUtility(rules, states, i, stateAndDriveToSatisfaction, dri
 
     utility = []
     totalRes = []
-
+    print('ls',len(states))
     for j in range(len(states)):
+        print('\nj', j)
         res = [0 for i in range(len(rules))]
         stimulusActivation = np.dot(states[j], stateToStimulusMapping)
         # Step 1. Calculate Drive Strength
         driveStrength = np.multiply(stimulusActivation, [a[i] for a in deficits])
+        # print(driveStrength[1], '\t', np.argmax(states[j]), '\tHigh')#, stimulusActivation, [a[i] for a in deficits])
 
         # Step 2. Calculate Goal Strength
         goalIndex = 0
@@ -122,14 +124,15 @@ def getboltzmannDistOfUtility(rules, states, i, stateAndDriveToSatisfaction, dri
         if driveAndStateToRelevance:
             goalStrength = []
             for d in range(len(goals)):
+                print(driveAndStateToRelevance[d][j], driveStrength)
                 goalStrength.append(np.sum(np.dot(driveAndStateToRelevance[d][j], driveStrength)))
-            # print(goalStrength)
+            print(goalStrength)
             boltzmannDistOfGoals = []
             for e in range(len(goals)):
                 boltzmannDistOfGoals.append(boltzmann(goalStrength, e, tau))
-            # print(boltzmannDistOfGoals)
+            print(boltzmannDistOfGoals)
             goal = np.random.choice(goals, p=boltzmannDistOfGoals)
-            # print(goal)
+            print(goal)
             goalIndex = goals.index(goal)
 
         # Step 3 Calculate Utility
@@ -152,7 +155,7 @@ def getboltzmannDistOfUtility(rules, states, i, stateAndDriveToSatisfaction, dri
         res[k] += 1
 
         totalRes.append(res)
-
+    print('tr',totalRes)
     return totalRes
 
 
