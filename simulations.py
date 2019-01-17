@@ -323,16 +323,17 @@ Schmidt & DeShon, 2007
 
 print('\nSchmidt & DeShon, 2007')
 
-effortSchmidt = {'referent': 2, 'nonreferent': 2, 'no effort': 0.01}
-rulesSchmidt = ['referent', 'nonreferent', 'no effort']
+# effortSchmidt = {'referent': 2, 'nonreferent': 2, 'no effort': 0.01}
+# rulesSchmidt = ['referent', 'nonreferent', 'no effort']
 
-statesSchmidt = ['R', 'NR']
+statesSchmidt = [['T']]
 
 statesVectorSchmidt = u.encoder(statesSchmidt)
+# print(statesVectorSchmidt)
 
 personTypesSchmidt = ['A Group']
-
 nParticipantsSchmidt = int(253/6)
+print(nParticipantsSchmidt)
 
 groupSizesSchmidt = [1]
 
@@ -341,111 +342,57 @@ drivesSchmidt = ['Achievement']
 
 #                                          Ach
 SchmidtExperimentPersonToDeficitMapping = [.8]
-SchmidtExperimentPersonToDeficitMapping = u.normalDist(SchmidtExperimentPersonToDeficitMapping, nParticipantsSchmidt, sigma=.1)
+
 
 
 #                                 Ach
-stateToStimulusMappingSchmidt = [[.6],  # R
-                                 [.6]]  # NR
+stateToStimulusMappingSchmidt = [[.6]]  # NR
 
 SchmidtRESSummary = np.zeros(shape=[3])
 time_spent_b = np.zeros(shape=nParticipantsSchmidt)
 time_spent_w = np.zeros(shape=nParticipantsSchmidt)
+f10_w_ = 0
+f10_total_ = 0
+f10_b_ = 0
+l10_w_ = 0
+l10_total_ = 0
+l10_b_ = 0
+f10_b_list = []
+f10_w_list = []
+l10_b_list = []
+l10_w_list = []
 
 for i in range(nParticipantsSchmidt):
-    #                                      Ref
-    #                                    Ach
-    driveAndStateToRelevanceSchmidt = [[[.9],   # R
-                                        [.0]],  # NR
-                                       # Non Ref
-                                       [[.0],   # R
-                                        [.9]],  # NR
-                                       # Do Nothing
-                                       [[.1],   # R
-                                        [.1]]]  # NR
 
-    #                                       Ach  Con
-    # stateAndDriveToSatisfactionSchmidt = [[[.7, .7],  # R
-    #                                        [.7, .7]],  # NR
+    SchmidtExperimentPersonToDeficitMapping = u.normalDist(SchmidtExperimentPersonToDeficitMapping, 1, sigma=.1)
+    # driveAndStateToRelevanceSchmidt = np.array([[[1]],  # R
+    #                                             [[2]]])  # NR
     #
-    #                                       [[.7, .7],  # R
-    #                                        [.7, .7]],  # NR
-    #
-    #                                       [[.5, .5],  # R
-    #                                        [.5, .5]]]  # NR
+    # stateAndDriveToSatisfactionSchmidt = np.array([[[3]],  # R
+    #                                                [[4]]])  # NR
+    # print('!!', stateAndDriveToSatisfactionSchmidt[1][0][0],
+    # driveAndStateToRelevanceSchmidt[1][0][0],
+    # driveAndStateToRelevanceSchmidt[0][0][0],
+    # stateAndDriveToSatisfactionSchmidt[0][0][0])
+    driveAndStateToRelevanceSchmidt = np.array([[[.9]],  # R
+                                                [[.9]]])  # NR
 
-    stateAndDriveToSatisfactionSchmidt = [[[.7],  # R
-                                           [.1]],  # NR
+    stateAndDriveToSatisfactionSchmidt = np.array([[[.7]],  # R
+                                                   [[.7]]])  # NR
 
-                                          [[.1],  # R
-                                           [.7]],  # NR
-
-                                          [[.1],  # R
-                                           [.1]]]  # NR
-
-    RorNR = randint(0, 1)
+    # RorNR = randint(0, 1)
     worse_i = 0
     better_i = 0
     time_spent_b_counter = []
     time_spent_w_counter = []
 
-    SchmidtRES_ = np.zeros(shape=[3])
+    SchmidtRES_ = np.zeros(shape=[2])
     SchmidtRES_first10 = np.zeros(shape=[3])
     SchmidtRES_last10 = np.zeros(shape=[3])
 
-    for min in range(38):
-
-        if SchmidtRES_[0] > SchmidtRES_[1]:
-            stateAndDriveToSatisfactionSchmidt[0][0][0] = 0.3
-            stateAndDriveToSatisfactionSchmidt[1][1][0] = 0.7
-
-        if SchmidtRES_[0] < SchmidtRES_[1]:
-            stateAndDriveToSatisfactionSchmidt[1][1][0] = 0.3
-            stateAndDriveToSatisfactionSchmidt[0][0][0] = 0.7
-
-        if SchmidtRES_[0] == SchmidtRES_[1]:
-            stateAndDriveToSatisfactionSchmidt[1][1][0] = 0.7
-            stateAndDriveToSatisfactionSchmidt[0][0][0] = 0.7
-
-
-        if SchmidtRES_[0] >= 15 or (15-SchmidtRES_[0]) > (38-min):
-            stateAndDriveToSatisfactionSchmidt[0][0][0] = 0
-            # stateAndDriveToSatisfactionSchmidt[0][1][0] = 0
-
-        if SchmidtRES_[1] >= 15 or (15-SchmidtRES_[1]) > (38-min):
-            # stateAndDriveToSatisfactionSchmidt[1][0][0] = 0
-            stateAndDriveToSatisfactionSchmidt[1][1][0] = 0
-
-        SchmidtRES = u.getResults(id=0, groupSizes=groupSizesSchmidt,
-                                  states=statesVectorSchmidt,
-                                  driveAndStateToRelevance=driveAndStateToRelevanceSchmidt,
-                                  stateAndDriveToSatisfaction=stateAndDriveToSatisfactionSchmidt,
-                                  stateToStimulusMapping=stateToStimulusMappingSchmidt,
-                                  deficits=SchmidtExperimentPersonToDeficitMapping, rules=rulesSchmidt,
-                                  goals=['r', 'nr', 'dn'], effort=effortSchmidt)
-
-        SchmidtRES_ += SchmidtRES[0]
-        print(SchmidtRES_)
-
-        # if min < 11:
-        #     SchmidtRES_first10 += SchmidtRES[0]
-        #
-        # if min > 38 - 11:
-        #     SchmidtRES_last10 += SchmidtRES[0]
-
-        action = np.argmax(SchmidtRES)
-
-        # if action == 0:
-        #     stateAndDriveToSatisfactionSchmidt[0][0][1] += -.02
-        #     stateAndDriveToSatisfactionSchmidt[1][0][1] += -.02
-        #
-        # if action == 1:
-        #     stateAndDriveToSatisfactionSchmidt[0][1][1] += -.02
-        #     stateAndDriveToSatisfactionSchmidt[1][1][1] += -.02
-
-        if action < 2:
-            RorNR = action
-
+    timeAvaliable = 30
+    j=0
+    while timeAvaliable > 0:
 
         if SchmidtRES_[0] > SchmidtRES_[1]:
             better_i = 0
@@ -457,17 +404,85 @@ for i in range(nParticipantsSchmidt):
             better_i = 1
             worse_i = 1
 
+
+        if SchmidtRES_[0] > SchmidtRES_[1]:  # R > NR
+            driveAndStateToRelevanceSchmidt = [[[.1]],  # R
+                                               [[.9]]]  # NR
+
+            # stateAndDriveToSatisfactionSchmidt = np.array([[[.4]],  # R
+            #                                                [[.7]]])  # NR
+
+        if SchmidtRES_[0] < SchmidtRES_[1]:  # R < NR
+            driveAndStateToRelevanceSchmidt = [[[.9]],  # R
+                                               [[.1]]]  # NR
+
+            # stateAndDriveToSatisfactionSchmidt = np.array([[[.7]],  # R
+            #                                                [[.4]]])  # NR
+
+        if SchmidtRES_[0] == SchmidtRES_[1]:  # R = NR
+            driveAndStateToRelevanceSchmidt = [[[.9]],  # R
+                                               [[.9]]]  # NR
+
+            # stateAndDriveToSatisfactionSchmidt = np.array([[[.7]],  # R
+            #                                                [[.7]]])  # NR
+
+
+        # if SchmidtRES_[0] > 14 or ((15-SchmidtRES_[0]) > (timeAvaliable)):  # R > 15 or not enough time for R
+        if  ((15-SchmidtRES_[0]) > (timeAvaliable)):  # R > 15 or not enough time for R
+            # print('0 is pointless')
+            driveAndStateToRelevanceSchmidt[0][0][0] = 0.0
+            stateAndDriveToSatisfactionSchmidt[0][0][0] = 0
+
+        # if SchmidtRES_[1] > 14 or ((15-SchmidtRES_[1]) > (timeAvaliable)):  # NR > 15 or not enough time for NR
+        if ((15-SchmidtRES_[1]) > (timeAvaliable)):  # NR > 15 or not enough time for NR
+            # print('1 is pointless', 15-SchmidtRES_[1], timeAvaliable, (15-SchmidtRES_[1]) > (timeAvaliable))
+            stateAndDriveToSatisfactionSchmidt[1][0][0] = 0
+            driveAndStateToRelevanceSchmidt[1][0][0] = 0.0
+
+        SchmidtRES, SchmidtGoal = u.getResults(id=0, groupSizes=groupSizesSchmidt,
+                                  states=statesVectorSchmidt,
+                                  driveAndStateToRelevance=driveAndStateToRelevanceSchmidt,
+                                  stateAndDriveToSatisfaction=stateAndDriveToSatisfactionSchmidt,
+                                  stateToStimulusMapping=stateToStimulusMappingSchmidt,
+                                  deficits=SchmidtExperimentPersonToDeficitMapping, rules=rules,
+                                  goals=['r', 'nr'], effort=effort)
+
+
+        temp = np.zeros(shape=[2])
+        temp[SchmidtGoal] = 1.0
+        SchmidtRES_ += temp
+
+        action = SchmidtGoal
+        aaa = [1, 2.5, 5, 7.5, 10]  # {'no e': 1, 'low e': 2.5, 'medium e': 5, 'high e': 7.5, 'maximum e': 10}
+        timeSpent = .4*(aaa[list(SchmidtRES[0]).index(1)])  # "2.5", SchmidtRES[0].index(1) need to be effort levels
+        timeAvaliable -= timeSpent
+        if SchmidtRES_[0] > 15 and action == 0:
+            timeSpent = 0
+        if SchmidtRES_[1] > 15 and action == 1:
+            timeSpent = 0
+
+
         if better_i != worse_i:
-            if RorNR == better_i:
-                time_spent_b_counter.append(1)
+            if action == better_i:
+                time_spent_b_counter.append(timeSpent)
                 time_spent_w_counter.append(0)
             else:
                 time_spent_b_counter.append(0)
-                time_spent_w_counter.append(1)
+                time_spent_w_counter.append(timeSpent)
         else:
-            time_spent_b_counter.append(0)
-            time_spent_w_counter.append(0)
+            time_spent_b_counter.append(timeSpent/2)
+            time_spent_w_counter.append(timeSpent/2)
 
+        # print('Goal:', action,
+        #       'Effort Level:', np.argmax(SchmidtRES),
+        #       'Time Spent W/B:', [time_spent_w_counter[j], time_spent_b_counter[j]],
+        #       'Schedules Soleved:', SchmidtRES_,
+        #       'Time Spent Counter W/B:', [np.sum(time_spent_w_counter), np.sum(time_spent_b_counter)],
+        #       # '', SchmidtGoal,
+        #       'Better', better_i,
+        #       'Worse', worse_i,
+        #       '\nEnd of Turn\n')
+        j += 1
 
     if SchmidtRES_[0] > 14:
         SchmidtRESSummary[0] += 1  # R
@@ -481,18 +496,54 @@ for i in range(nParticipantsSchmidt):
     # time_spent_b[i] = time_spent_b_counter # :10 HERE NOT ALTER!!!
     # time_spent_w[i] = time_spent_w_counter
 
-# print(time_spent_b, time_spent_w)
-f10_total = np.sum(time_spent_b_counter[:10] + time_spent_w_counter[:10])
-f10_b = np.sum(time_spent_b_counter[:10])
-f10_w = np.sum(time_spent_w_counter[:10])
+    # print(time_spent_b, time_spent_w)
+    f10_total = 0
+    f10_b = 0
+    f10_w = 0
+    for step in range(len(time_spent_b_counter)):
+        f10_total += time_spent_b_counter[step] + time_spent_w_counter[step]
+        if f10_total <= 10:
+            f10_b += time_spent_b_counter[step]
+            f10_w += time_spent_w_counter[step]
+        else:
+            f10_total -= time_spent_b_counter[step] + time_spent_w_counter[step]
+            break
 
-l10_total = np.sum(time_spent_b_counter[-10:] + time_spent_w_counter[-10:])
-l10_b = np.sum(time_spent_b_counter[-10:])
-l10_w = np.sum(time_spent_w_counter[-10:])
+    l10_total = 0
+    l10_b = 0
+    l10_w = 0
+    for step in reversed(range(len(time_spent_b_counter))):
+        l10_total += time_spent_b_counter[step] + time_spent_w_counter[step]
+        if l10_total <= 10:
+            l10_b += time_spent_b_counter[step]
+            l10_w += time_spent_w_counter[step]
+        else:
+            l10_total -= time_spent_b_counter[step] + time_spent_w_counter[step]
+            break
 
-print('Figure 3 first w, first b, last w, last b', f10_w/f10_total, f10_b/f10_total, l10_w/l10_total, l10_b/l10_total)
+
+    f10_total_ += f10_total
+    f10_b_ += f10_b
+    f10_w_ += f10_w
+    l10_total_ += l10_total
+    l10_b_ += l10_b
+    l10_w_ += l10_w
+
+    f10_b_list.append(f10_b)
+    f10_w_list.append(f10_w)
+    l10_b_list.append(l10_b)
+    l10_w_list.append(l10_w)
+print('Figure 3 first w, first b, last w, last b', f10_w_/f10_total_, f10_b_/f10_total_, l10_w_/l10_total_, l10_b_/l10_total_)
 
 print('Schmidt REF, NONREF, BOTH (in %)', SchmidtRESSummary/nParticipantsSchmidt*100)
+
+list_for_anova = [f10_b_list, f10_w_list, l10_b_list, l10_w_list]
+anova_Schmidt = u.anova(np.array(list_for_anova))
+print('ANOVA Seijts Time + Discrepancy:', anova_Schmidt)
+
+list_for_anova2 = [f10_b_list+l10_b_list, l10_w_list+f10_w_list]
+anova_Schmidt = u.anova(np.array(list_for_anova2))
+print('ANOVA Seijts Discrepancy:', anova_Schmidt)
 
 
 
