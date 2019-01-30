@@ -3,14 +3,14 @@ from random import randint
 import scipy
 import numpy as np
 
-'''
-The ANOVA test has important assumptions that must be satisfied in order for the associated p-value to be valid.
-
-The samples are independent.
-Each sample is from a normally distributed population.
-The population standard deviations of the groups are all equal. This property is known as homoscedasticity.
-If these assumptions are not true for a given set of data, it may still be possible to use the Kruskal-Wallis H-test (scipy.stats.kruskal) although with some loss of power.
-'''
+# '''
+# The ANOVA test has important assumptions that must be satisfied in order for the associated p-value to be valid.
+#
+# The samples are independent.
+# Each sample is from a normally distributed population.
+# The population standard deviations of the groups are all equal. This property is known as homoscedasticity.
+# If these assumptions are not true for a given set of data, it may still be possible to use the Kruskal-Wallis H-test (scipy.stats.kruskal) although with some loss of power.
+# '''
 effort = {'no effort': 1, 'low effort': 2.5, 'medium effort': 5, 'high effort': 7.5, 'maximum effort': 10}
 rules = ['no effort', 'low effort', 'medium effort', 'high effort', 'maximum effort']
 # """
@@ -34,7 +34,7 @@ rules = ['no effort', 'low effort', 'medium effort', 'high effort', 'maximum eff
 #
 # personTypesIyengar = ['Anglo American', 'Asian American']
 #
-# nParticipantsIyengar = 51#00
+# nParticipantsIyengar = 51#51
 #
 # groupSizesIyengar = [int(nParticipantsIyengar/len(statesIyengar)), int(nParticipantsIyengar/len(statesIyengar))]
 #
@@ -48,7 +48,6 @@ rules = ['no effort', 'low effort', 'medium effort', 'high effort', 'maximum eff
 #
 # # 4.2.4.1 Initialization module. Handpicked values. This part needs some evidence or something.
 # #                                      Ach Aut Def
-# # angloAmericanPersonToDeficitMapping = [.7, .8, .1]
 # angloAmericanPersonToDeficitMapping = [.6, .8, .1]
 # angloAmericanPersonToDeficitMapping = u.normalDist(angloAmericanPersonToDeficitMapping, nParticipantsIyengar, sigma=.1)
 #
@@ -56,11 +55,7 @@ rules = ['no effort', 'low effort', 'medium effort', 'high effort', 'maximum eff
 # asianAmericanPersonToDeficitMapping = [.6, .3, .5]
 # asianAmericanPersonToDeficitMapping = u.normalDist(asianAmericanPersonToDeficitMapping, nParticipantsIyengar, sigma=.1)
 #
-# # 4.2.4.2 Preprocessing module. Handpicked values. This part needs some evidence or something.
-# #                                 Ach  Aut Def
-# # stateToStimulusMappingIyengar = [[.7,  .1, .1],   # personal choice
-# #                                  [.5,  .7, .1],   # out-group choice
-# #                                  [.7,  .6, .6]]   # in-group choice
+
 # stateToStimulusMappingIyengar = [[.7,  .1, .1],   # personal choice
 #                                  [.7,  .6, .1],   # out-group choice
 #                                  [.7,  .6, .6]]   # in-group choice
@@ -80,19 +75,21 @@ rules = ['no effort', 'low effort', 'medium effort', 'high effort', 'maximum eff
 # '''
 #
 #
-# IyengarAngloAmericanRES = u.getResults(0, groupSizesIyengar,
+# IyengarAngloAmericanRES, _ = u.getResults(0, groupSizesIyengar,
 #                                       states=statesVectorIyengar,
 #                                       driveAndStateToRelevance=None,
 #                                       stateAndDriveToSatisfaction=stateAndDriveToSatisfactionIyengar,
 #                                       stateToStimulusMapping=stateToStimulusMappingIyengar,
 #                                       deficits=angloAmericanPersonToDeficitMapping, rules=rules, goals=['just do it'], effort=effort)
-# IyengarAsianAmericanRES = u.getResults(1, groupSizesIyengar,
+#
+# IyengarAsianAmericanRES, _ = u.getResults(1, groupSizesIyengar,
 #                                       states=statesVectorIyengar,
 #                                       driveAndStateToRelevance=None,
 #                                       stateAndDriveToSatisfaction=stateAndDriveToSatisfactionIyengar,
 #                                       stateToStimulusMapping=stateToStimulusMappingIyengar,
 #                                       deficits=asianAmericanPersonToDeficitMapping, rules=rules, goals=['just do it'], effort=effort)
 #
+# print(IyengarAngloAmericanRES)
 # score_angl_a, sd, se = u.calcPerformance(IyengarAngloAmericanRES, 1.5)
 # print('Iyengar AngloAmerican M =', score_angl_a)
 # print('Iyengar AngloAmerican SD =', sd)
@@ -133,93 +130,93 @@ rules = ['no effort', 'low effort', 'medium effort', 'high effort', 'maximum eff
 #
 #
 #
-# '''
-# Deci, 1971
-# '''
-#
-# print('\nDeci, 1971')
-#
-# statesDeci = ['NO MR', 'MR INTRO', 'MR RESCIND']
-#
-# statesVectorDeci = u.encoder(statesDeci)
-# controlGroupStatesVecDeci = [statesVectorDeci[0], statesVectorDeci[0], statesVectorDeci[0]]
-#
-# personTypesDeci = ['Control Group', 'Experiment Group']
-#
-# nParticipantsDeci = 12
-#
-# groupSizesDeci = [nParticipantsDeci, nParticipantsDeci]
-#
-# drivesDeci = ['Achievement', 'Curiosity', 'Conservation']
-#
-# #                                    Ach  Cur Con
-# stateAndDriveToSatisfactionDeci = [[[.7,  .7, -.7],   # initial
-#                                     [.7,  .7, .0],   # monetary reward
-#                                     [.6,  .5, -.1]]]  # m.r. is no longer offered
-#
-# #                             Ach Cur Con
-# PersonToDeficitMappingDeci = [.7, .7, .6]
-# controlPersonToDeficitMappingDeci = u.normalDist(PersonToDeficitMappingDeci, nParticipantsDeci, sigma=.01)
-# experimentPersonToDeficitMappingDeci = u.normalDist(PersonToDeficitMappingDeci, nParticipantsDeci, sigma=.01)
-#
-# #                              Ach Cur Con
-# stateToStimulusMappingDeci = [[.7, .7, .3],  # initial
-#                               [.5, .5, .2],  # monetary reward
-#                               [.5, .5, .8]]  # m.r. is no longer offered
-#
-# # #                                 Ach Cur Con
-# # driveAndStateToRelevanceDeci = [[[.9, .9, .9],   # initial
-# #                                  [.9, .9, .9],   # monetary reward
-# #                                  [.9, .9, .9]]]  # m.r. is no longer offered
-#
-#
-#
-# DeciControlGroupRES = u.getResults(0, groupSizesDeci,
-#                                    states=statesVectorDeci,
-#                                    driveAndStateToRelevance= None,#[driveAndStateToRelevanceDeci[0],
-#                                                              #driveAndStateToRelevanceDeci[0],
-#                                                              #driveAndStateToRelevanceDeci[0]],
-#                                    stateAndDriveToSatisfaction=[[stateAndDriveToSatisfactionDeci[0][0],
-#                                                                 stateAndDriveToSatisfactionDeci[0][0],
-#                                                                 stateAndDriveToSatisfactionDeci[0][0]]],
-#                                    stateToStimulusMapping=[stateToStimulusMappingDeci[0],
-#                                                            stateToStimulusMappingDeci[0],
-#                                                            stateToStimulusMappingDeci[0],],
-#                                    deficits=controlPersonToDeficitMappingDeci, rules=rules, goals=['just do it'], effort=effort)
-#
-#
-# DeciExperimentalGroupRES = u.getResults(1, groupSizesDeci,
-#                                         states=statesVectorDeci,
-#                                         driveAndStateToRelevance=None,#driveAndStateToRelevanceDeci,
-#                                         stateAndDriveToSatisfaction=stateAndDriveToSatisfactionDeci,
-#                                         stateToStimulusMapping=stateToStimulusMappingDeci,
-#                                         deficits=experimentPersonToDeficitMappingDeci, rules=rules, goals=['just do it'], effort=effort)
-#
-#
-# score_control_g, sd, _ = u.calcPerformance(DeciControlGroupRES, 50)
-# ec_freq_diference = [u.resToFreq(DeciExperimentalGroupRES)[2] - u.resToFreq(DeciExperimentalGroupRES)[0], u.resToFreq(DeciControlGroupRES)[2] - u.resToFreq(DeciControlGroupRES)[0]]
-# # print([u.resToFreq(DeciExperimentalGroupRES)[2] - u.resToFreq(DeciExperimentalGroupRES)[0], u.resToFreq(DeciControlGroupRES)[2] - u.resToFreq(DeciControlGroupRES)[0]])
-# print('E(T3-T1)-C(T3-T1) ANOVA:', u.anova(np.array(ec_freq_diference)))
-# score_experimental_g, sd2, _ = u.calcPerformance(DeciExperimentalGroupRES, 50)
-#
-# print('Deci ExperimentalGroup M =', score_experimental_g)
-# # print('Deci ExperimentalGroup SD =', sd2)#, se)
-# print('E(T3-T1)', score_experimental_g[2]-score_experimental_g[0])
-#
-# print('Deci ControlGroup M =', score_control_g)
-# # print('Deci ControlGroup SD =', sd)#, se)
-# print('C(T3-T1)', score_control_g[2]-score_control_g[0])
-#
-# print('E(T3-T1)-C(T3-T1)', score_experimental_g[2]-score_experimental_g[0]-(score_control_g[2]-score_control_g[0]))
-#
-# DeciConditionRES = np.array(DeciControlGroupRES) + np.array(DeciExperimentalGroupRES)
-#
-# DeciGroupRES = np.array([DeciExperimentalGroupRES[0], DeciExperimentalGroupRES[2]])
-#
-# print(u.t_test(states=statesDeci, res=DeciConditionRES, df=47))
+'''
+Deci, 1971
+'''
+
+print('\nDeci, 1971')
+
+statesDeci = ['NO MR', 'MR INTRO', 'MR RESCIND']
+
+statesVectorDeci = u.encoder(statesDeci)
+controlGroupStatesVecDeci = [statesVectorDeci[0], statesVectorDeci[0], statesVectorDeci[0]]
+
+personTypesDeci = ['Control Group', 'Experiment Group']
+
+nParticipantsDeci = 12*2
+
+groupSizesDeci = [nParticipantsDeci, nParticipantsDeci]
+
+drivesDeci = ['Achievement', 'Curiosity', 'Conservation']
+
+#                                    Ach  Cur Con
+stateAndDriveToSatisfactionDeci = [[[.7,  .7, .3],   # initial
+                                    [.7,  .7, .7],   # monetary reward
+                                    [.6,  .5, .2]]]  # m.r. is no longer offered
+
+#                             Ach Cur Con
+PersonToDeficitMappingDeci = [.6, .6, .7]
+controlPersonToDeficitMappingDeci = u.normalDist(PersonToDeficitMappingDeci, nParticipantsDeci, sigma=.01)
+experimentPersonToDeficitMappingDeci = u.normalDist(PersonToDeficitMappingDeci, nParticipantsDeci, sigma=.01)
+
+#                              Ach Cur Con
+stateToStimulusMappingDeci = [[.7, .7, .2],  # initial
+                              [.6, .6, .8],  # monetary reward
+                              [.5, .5, .1]]  # m.r. is no longer offered
+
+
+
+
+DeciControlGroupRES, _ = u.getResults(0, groupSizesDeci,
+                                   states=statesVectorDeci,
+                                   driveAndStateToRelevance= None,#[driveAndStateToRelevanceDeci[0],
+                                                             #driveAndStateToRelevanceDeci[0],
+                                                             #driveAndStateToRelevanceDeci[0]],
+                                   stateAndDriveToSatisfaction=[[stateAndDriveToSatisfactionDeci[0][0],
+                                                                stateAndDriveToSatisfactionDeci[0][0],
+                                                                stateAndDriveToSatisfactionDeci[0][0]]],
+                                   stateToStimulusMapping=[stateToStimulusMappingDeci[0],
+                                                           stateToStimulusMappingDeci[0],
+                                                           stateToStimulusMappingDeci[0],],
+                                   deficits=controlPersonToDeficitMappingDeci, rules=rules, goals=['just do it'], effort=effort)
+
+# print(DeciControlGroupRES)
+
+DeciExperimentalGroupRES, _ = u.getResults(1, groupSizesDeci,
+                                        states=statesVectorDeci,
+                                        driveAndStateToRelevance=None,#driveAndStateToRelevanceDeci,
+                                        stateAndDriveToSatisfaction=stateAndDriveToSatisfactionDeci,
+                                        stateToStimulusMapping=stateToStimulusMappingDeci,
+                                        deficits=experimentPersonToDeficitMappingDeci, rules=rules, goals=['just do it'], effort=effort)
+
+
+score_control_g, sd, _ = u.calcPerformance(DeciControlGroupRES, 50)
+# print(score_control_g)
+ec_freq_diference = [u.resToFreq(DeciExperimentalGroupRES)[2] - u.resToFreq(DeciExperimentalGroupRES)[0], u.resToFreq(DeciControlGroupRES)[2] - u.resToFreq(DeciControlGroupRES)[0]]
+# print([u.resToFreq(DeciExperimentalGroupRES)[2] - u.resToFreq(DeciExperimentalGroupRES)[0], u.resToFreq(DeciControlGroupRES)[2] - u.resToFreq(DeciControlGroupRES)[0]])
+print('E(T3-T1)-C(T3-T1) ANOVA:', u.anova(np.array(ec_freq_diference)))
+score_experimental_g, sd2, _ = u.calcPerformance(DeciExperimentalGroupRES, 50)
+
+print('Deci ExperimentalGroup M =', score_experimental_g)
+# print('Deci ExperimentalGroup SD =', sd2)#, se)
+print('E(T3-T1)', score_experimental_g[2]-score_experimental_g[0])
+
+print('Deci ControlGroup M =', score_control_g)
+# print('Deci ControlGroup SD =', sd)#, se)
+print('C(T3-T1)', score_control_g[2]-score_control_g[0])
+
+print('E(T3-T1)-C(T3-T1)', score_experimental_g[2]-score_experimental_g[0]-(score_control_g[2]-score_control_g[0]))
+
+DeciConditionRES = np.array(DeciControlGroupRES) + np.array(DeciExperimentalGroupRES)
+
+# DeciGroupRES = np.array([DeciExperimentalGroupRES[2], DeciExperimentalGroupRES[0], DeciControlGroupRES[2]-DeciControlGroupRES[0]])
+
+# print(DeciGroupRES)
+
+print(u.t_test(states=statesDeci, res=DeciConditionRES, df=47))
 # print(u.t_test(states=personTypesDeci, res=DeciGroupRES, df=47))
-#
-# u.plot_results(personTypesDeci, [score_control_g, score_experimental_g], statesDeci, 'Deci')
+
+u.plot_results(personTypesDeci, [score_control_g, score_experimental_g], statesDeci, 'Deci')
 #
 #
 #
@@ -274,14 +271,6 @@ rules = ['no effort', 'low effort', 'medium effort', 'high effort', 'maximum eff
 #                                    [.6, .4]]  # NPD
 #
 #
-# #                                      Ach Hon
-# # driveAndStateToRelevanceStajkovic = [[[.9, .8],  # PE
-# #                                       [.9, .9],  # PDYB
-# #                                       [.9, .6],  # PD
-# #
-# #                                       [.9, .6],   # NPE
-# #                                       [.9, .7],   # NPDYB
-# #                                       [.9, .8]]]  # NPD
 #
 # StajkovicRES = u.getResults(id=0, groupSizes=groupSizesStajkovic,
 #                           states=statesVectorStajkovic,
@@ -332,7 +321,7 @@ statesVectorSchmidt = u.encoder(statesSchmidt)
 # print(statesVectorSchmidt)
 
 personTypesSchmidt = ['A Group']
-nParticipantsSchmidt = int(253/6)
+nParticipantsSchmidt = 42
 print(nParticipantsSchmidt)
 
 groupSizesSchmidt = [1]
@@ -365,15 +354,7 @@ l10_w_list = []
 for i in range(nParticipantsSchmidt):
 
     SchmidtExperimentPersonToDeficitMapping = u.normalDist(SchmidtExperimentPersonToDeficitMapping, 1, sigma=.1)
-    # driveAndStateToRelevanceSchmidt = np.array([[[1]],  # R
-    #                                             [[2]]])  # NR
-    #
-    # stateAndDriveToSatisfactionSchmidt = np.array([[[3]],  # R
-    #                                                [[4]]])  # NR
-    # print('!!', stateAndDriveToSatisfactionSchmidt[1][0][0],
-    # driveAndStateToRelevanceSchmidt[1][0][0],
-    # driveAndStateToRelevanceSchmidt[0][0][0],
-    # stateAndDriveToSatisfactionSchmidt[0][0][0])
+
     driveAndStateToRelevanceSchmidt = np.array([[[.9]],  # R
                                                 [[.9]]])  # NR
 
@@ -533,17 +514,20 @@ for i in range(nParticipantsSchmidt):
     f10_w_list.append(f10_w)
     l10_b_list.append(l10_b)
     l10_w_list.append(l10_w)
+
 print('Figure 3 first w, first b, last w, last b', f10_w_/f10_total_, f10_b_/f10_total_, l10_w_/l10_total_, l10_b_/l10_total_)
 
 print('Schmidt REF, NONREF, BOTH (in %)', SchmidtRESSummary/nParticipantsSchmidt*100)
 
+print('!!!', len(f10_b_list))
 list_for_anova = [f10_b_list, f10_w_list, l10_b_list, l10_w_list]
 anova_Schmidt = u.anova(np.array(list_for_anova))
-print('ANOVA Seijts Time + Discrepancy:', anova_Schmidt)
+print('ANOVA Schmidt Time + Discrepancy:', anova_Schmidt)
 
-list_for_anova2 = [f10_b_list+l10_b_list, l10_w_list+f10_w_list]
-anova_Schmidt = u.anova(np.array(list_for_anova2))
-print('ANOVA Seijts Discrepancy:', anova_Schmidt)
+list_for_anova2 = np.array([f10_b_list+l10_b_list, l10_w_list+f10_w_list])
+print(list_for_anova2.shape)
+anova_Schmidt = u.anova(list_for_anova2)
+print('ANOVA Schmidt Discrepancy:', anova_Schmidt)
 
 
 
@@ -551,63 +535,64 @@ print('ANOVA Seijts Discrepancy:', anova_Schmidt)
 #
 #
 #
-# '''
-# Seijts & Latham, 2001
-# '''
-#
-# print('\nSeijts & Latham, 2001')
-#
-#
-# statesSeijts = ['Outcome', 'Learning', 'DYB']
-#
-# statesVectorSeijts = u.encoder(statesSeijts)
-#
-# personTypesSeijts = ['A Group']
-#
-# nParticipantsSeijts = int((62+32)/3)
-#
-# groupSizesSeijts = [nParticipantsSeijts]
-#
-#
-# drivesSeijts = ['Achievement', 'Honor', 'Curiosity']
-#
-# #                                      Ach  Hon Cur
-# stateAndDriveToSatisfactionSeijts = [[[.7, -.4, .1],   # O
-#                                       [.7, -.1, .6],   # L
-#                                       [.7, -.0, .5]]]  # DYB
-#
-# #                                            Ach Hon
-# SeijtsExperimentPersonToDeficitMapping = [.7, .6, .7]
-# SeijtsExperimentPersonToDeficitMapping = u.normalDist(SeijtsExperimentPersonToDeficitMapping, nParticipantsSeijts, sigma=0.1)
-#
-#
-# #                                Ach Hon Cur
-# stateToStimulusMappingSeijts = [[.8, .3, .1],  # O
-#                                 [.8, .1, .5],  # L
-#                                 [.5, .0, .4]]  # DYB
-#
-#
-# # #                                   Ach Hon Cur
-# # driveAndStateToRelevanceSeijts = [[[.9, .7, .8],   # O
-# #                                    [.9, .7, .8],   # L
-# #                                    [.9, .7, .8]]]  # DYB
-#
-# SeijtsRES = u.getResults(id=0, groupSizes=groupSizesSeijts, states=statesVectorSeijts,
-#                         driveAndStateToRelevance=None,#driveAndStateToRelevanceSeijts,
-#                         stateAndDriveToSatisfaction=stateAndDriveToSatisfactionSeijts,
-#                         stateToStimulusMapping=stateToStimulusMappingSeijts,
-#                         deficits=SeijtsExperimentPersonToDeficitMapping, rules=rules, goals=['just do it'],
-#                         effort=effort)
-#
-# score_Seijts, sd_Seijts, se_Seijts = u.calcPerformance(SeijtsRES, 1.825)
-# print('Seijts M =', score_Seijts)
-# print('Seijts SD =', sd_Seijts)
-#
-# anova_SeijtsOLDYB = u.anova(u.resToFreq(SeijtsRES))
-# print('ANOVA Seijts Outcome vs Learning vs DYB:', anova_SeijtsOLDYB)
-# print(u.t_test(states=statesSeijts, res=SeijtsRES))
-#
-# u.plot_results(personTypesSeijts, [score_Seijts], statesSeijts, 'Seijts')
+'''
+Seijts & Latham, 2001
+'''
+
+print('\nSeijts & Latham, 2001')
+
+
+statesSeijts = ['Outcome', 'Learning', 'DYB']
+
+statesVectorSeijts = u.encoder(statesSeijts)
+
+personTypesSeijts = ['A Group']
+
+nParticipantsSeijts = int((96)/3)
+
+groupSizesSeijts = [nParticipantsSeijts]
+
+
+drivesSeijts = ['Achievement', 'Honor', 'Curiosity']
+
+#                                      Ach  Hon Cur
+stateAndDriveToSatisfactionSeijts = [[[.7, -.4, .1],   # O
+                                      [.7, -.1, .6],   # L
+                                      [.7, -.0, .5]]]  # DYB
+
+#                                            Ach Hon
+SeijtsExperimentPersonToDeficitMapping = [.7, .6, .7]
+SeijtsExperimentPersonToDeficitMapping = u.normalDist(SeijtsExperimentPersonToDeficitMapping, nParticipantsSeijts, sigma=0.1)
+
+
+#                                Ach Hon Cur
+stateToStimulusMappingSeijts = [[.8, .3, .1],  # O
+                                [.8, .1, .5],  # L
+                                [.5, .0, .4]]  # DYB
+
+
+# #                                   Ach Hon Cur
+# driveAndStateToRelevanceSeijts = [[[.9, .7, .8],   # O
+#                                    [.9, .7, .8],   # L
+#                                    [.9, .7, .8]]]  # DYB
+
+SeijtsRES, _ = u.getResults(id=0, groupSizes=groupSizesSeijts, states=statesVectorSeijts,
+                        driveAndStateToRelevance=None,#driveAndStateToRelevanceSeijts,
+                        stateAndDriveToSatisfaction=stateAndDriveToSatisfactionSeijts,
+                        stateToStimulusMapping=stateToStimulusMappingSeijts,
+                        deficits=SeijtsExperimentPersonToDeficitMapping, rules=rules, goals=['just do it'],
+                        effort=effort)
+
+print(SeijtsRES)
+score_Seijts, sd_Seijts, se_Seijts = u.calcPerformance(SeijtsRES, 1.825)
+print('Seijts M =', score_Seijts)
+print('Seijts SD =', sd_Seijts)
+
+anova_SeijtsOLDYB = u.anova(u.resToFreq(SeijtsRES))
+print('ANOVA Seijts Outcome vs Learning vs DYB:', anova_SeijtsOLDYB)
+print(u.t_test(states=statesSeijts, res=SeijtsRES))
+
+u.plot_results(personTypesSeijts, [score_Seijts], statesSeijts, 'Seijts')
 #
 #
 #
@@ -647,11 +632,7 @@ print('ANOVA Seijts Discrepancy:', anova_Schmidt)
 # ChenExperimentPersonToDeficitMapping = u.normalDist(ChenExperimentPersonToDeficitMapping, nParticipantsChen)
 #
 #
-# # #                              Cur  Hon
-# # stateToStimulusMappingChen = [[1.,  .1],  # L
-# #                               [.8,  .7],  # P
-# #                               [.62, .4],  # PL
-# #                               [.4,  .1]]  # C
+
 #
 # #                              Cur  Hon
 # stateToStimulusMappingChen = [[1.,  .1],  # L
@@ -662,18 +643,16 @@ print('ANOVA Seijts Discrepancy:', anova_Schmidt)
 #
 #
 #
-# #                                 Cur Hon
-# # driveAndStateToRelevanceChen = [[[.9, .7],   # L
-# #                                  [.9, .7],   # P
-# #                                  [.9, .7],   # PL
-# #                                  [.9, .7]]]  # C
+
 #
-# ChenRES = u.getResults(id=0, groupSizes=groupSizesChen, states=statesVectorChen,
+# ChenRES, _ = u.getResults(id=0, groupSizes=groupSizesChen, states=statesVectorChen,
 #                         driveAndStateToRelevance=None,#driveAndStateToRelevanceChen,
 #                         stateAndDriveToSatisfaction=stateAndDriveToSatisfactionChen,
 #                         stateToStimulusMapping=stateToStimulusMappingChen,
 #                         deficits=ChenExperimentPersonToDeficitMapping, rules=rules, goals=['just do it'],
 #                         effort=effort)
+#
+# print(ChenRES)
 #
 # score_Chen, sd_Chen, se_Chen = u.calcPerformance(ChenRES, 1.93)
 # print('Chen M =', score_Chen)
@@ -684,8 +663,8 @@ print('ANOVA Seijts Discrepancy:', anova_Schmidt)
 # print(u.t_test(states=statesChen, res=ChenRES))
 #
 # u.plot_results(personTypesChen, [score_Chen], statesChen, 'Chen')
-#
-#
+
+
 #
 #
 #
